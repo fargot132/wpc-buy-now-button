@@ -3,7 +3,7 @@
 Plugin Name: WPC Buy Now Button for WooCommerce
 Plugin URI: https://wpclever.net/
 Description: WPC Buy Now Button is the ultimate time-saving plugin that helps customers skip the cart page and get redirected right straight to the checkout step.
-Version: 2.2.26
+Version: 2.2.27
 Author: WPClever
 Author URI: https://wpclever.net
 Text Domain: wpc-buy-now-button
@@ -20,16 +20,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 defined( 'ABSPATH' ) || exit;
 
-! defined( 'WPCBN_VERSION' ) && define( 'WPCBN_VERSION', '2.2.26' );
+! defined( 'WPCBN_VERSION' ) && define( 'WPCBN_VERSION', '2.2.27' );
 ! defined( 'WPCBN_LITE' ) && define( 'WPCBN_LITE', __FILE__ );
 ! defined( 'WPCBN_FILE' ) && define( 'WPCBN_FILE', __FILE__ );
 ! defined( 'WPCBN_URI' ) && define( 'WPCBN_URI', plugin_dir_url( __FILE__ ) );
 ! defined( 'WPCBN_DIR' ) && define( 'WPCBN_DIR', plugin_dir_path( __FILE__ ) );
-! defined( 'WPCBN_SUPPORT' ) && define( 'WPCBN_SUPPORT', 'https://wpclever.net/support?utm_source=support&utm_medium=wpcbn&utm_campaign=wporg' );
-! defined( 'WPCBN_REVIEWS' ) && define( 'WPCBN_REVIEWS', 'https://wordpress.org/support/plugin/wpc-buy-now-button/reviews/?filter=5' );
-! defined( 'WPCBN_CHANGELOG' ) && define( 'WPCBN_CHANGELOG', 'https://wordpress.org/plugins/wpc-buy-now-button/#developers' );
-! defined( 'WPCBN_DISCUSSION' ) && define( 'WPCBN_DISCUSSION', 'https://wordpress.org/support/plugin/wpc-buy-now-button' );
-! defined( 'WPC_URI' ) && define( 'WPC_URI', WPCBN_URI );
 
 // Removed WPClever dashboard and kit includes
 include 'includes/hpos.php';
@@ -163,12 +158,8 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					wp_enqueue_style( 'wpcbn-frontend', WPCBN_URI . 'assets/css/frontend.css', [], WPCBN_VERSION );
 					wp_enqueue_script( 'wpcbn-frontend', WPCBN_URI . 'assets/js/frontend.js', [ 'jquery' ], WPCBN_VERSION, true );
 					wp_localize_script( 'wpcbn-frontend', 'wpcbn_vars', apply_filters( 'wpcbn_vars', [
-							'nonce'             => wp_create_nonce( 'wpcbn-security' ),
-							'wc_ajax_url'       => WC_AJAX::get_endpoint( '%%endpoint%%' ),
-							'woofc'             => self::get_setting( 'redirect', 'checkout' ) === 'woofc',
-							'instant_checkout'  => self::get_setting( 'redirect', 'checkout' ) === 'instant_checkout',
-							'perfect_scrollbar' => self::get_setting( 'perfect_scrollbar', 'yes' ) === 'yes',
-							'wc_checkout_js'    => defined( 'WC_PLUGIN_FILE' ) ? plugins_url( 'assets/js/frontend/checkout.js', WC_PLUGIN_FILE ) : '',
+							'nonce'      => wp_create_nonce( 'wpcbn-security' ),
+							'wc_ajax_url' => WC_AJAX::get_endpoint( '%%endpoint%%' ),
 						] )
 					);
 				}
@@ -287,7 +278,7 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 
 					if ( $plugin === $file ) {
 						$row_meta = [
-							'support' => '<a href="' . esc_url( WPCBN_DISCUSSION ) . '" target="_blank">' . esc_html__( 'Community support', 'wpc-buy-now-button' ) . '</a>',
+							'support' => '<a href="https://wordpress.org/support/plugin/wpc-buy-now-button" target="_blank">' . esc_html__( 'Community support', 'wpc-buy-now-button' ) . '</a>',
 						];
 
 						return array_merge( $links, $row_meta );

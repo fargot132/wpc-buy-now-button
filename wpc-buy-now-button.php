@@ -3,13 +3,14 @@
 Plugin Name: WPC Buy Now Button for WooCommerce
 Plugin URI: https://wpclever.net/
 Description: WPC Buy Now Button is the ultimate time-saving plugin that helps customers skip the cart page and get redirected right straight to the checkout step.
-Version: 2.1.7
+Version: 2.1.20
 Author: WPClever
 Author URI: https://wpclever.net
 Text Domain: wpc-buy-now-button
 Domain Path: /languages/
 Requires Plugins: woocommerce
 Requires at least: 4.0
+Requires PHP: 8.0
 Tested up to: 6.8
 WC requires at least: 3.0
 WC tested up to: 10.1
@@ -19,7 +20,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 defined( 'ABSPATH' ) || exit;
 
-! defined( 'WPCBN_VERSION' ) && define( 'WPCBN_VERSION', '2.1.7' );
+! defined( 'WPCBN_VERSION' ) && define( 'WPCBN_VERSION', '2.1.20' );
 ! defined( 'WPCBN_LITE' ) && define( 'WPCBN_LITE', __FILE__ );
 ! defined( 'WPCBN_FILE' ) && define( 'WPCBN_FILE', __FILE__ );
 ! defined( 'WPCBN_URI' ) && define( 'WPCBN_URI', plugin_dir_url( __FILE__ ) );
@@ -110,7 +111,7 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					add_filter( 'wooaa_ignore_form_data', [ $this, 'ignore_form_data' ] );
 
 					// add to cart
-					add_action( 'wp_loaded', [ $this, 'handle_buy_now' ] );
+					add_action( 'template_redirect', [ $this, 'handle_buy_now' ] );
 					add_filter( 'woocommerce_add_to_cart_redirect', [ $this, 'add_to_cart_redirect' ], 9999 );
 
 					// dropdown multiple
@@ -626,13 +627,19 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					echo do_shortcode( '[wpcbn_btn_archive]' );
 				}
 
-				function button_single() {
+				function button_single(): void
+                {
 					echo do_shortcode( '[wpcbn_btn_single]' );
 				}
 
-				function handle_buy_now() {
-					// Early return if required parameter is missing
+				public function handle_buy_now() {
+					// Early return if required parameter is missing - check first to avoid unnecessary processing
 					if ( ! isset( $_REQUEST[ self::$param ] ) ) {
+						return false;
+					}
+
+					// Only run on pages where buy-now makes sense (checkout, cart, or with the parameter)
+					if ( ! is_checkout() && ! is_cart() && ! isset( $_REQUEST[ self::$param ] ) ) {
 						return false;
 					}
 
@@ -675,7 +682,6 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					$redirect = $this->get_redirect_url();
 
 					wp_safe_redirect( $redirect );
-					exit;
 				}
 
 				/**

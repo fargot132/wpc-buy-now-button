@@ -1,197 +1,194 @@
+# Polish translation for WPC Buy Now Button for WooCommerce
 # Copyright (C) 2025 WPClever
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
 "Project-Id-Version: WPC Buy Now Button for WooCommerce 2.2.27\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpc-buy-now-button\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-09-04T21:50:00+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
-"X-Domain: wpc-buy-now-button\n"
+"PO-Revision-Date: 2025-09-04 21:50+0000\n"
+"Last-Translator: \n"
+"Language-Team: Polish\n"
+"X-Generator: Poedit 3.4.2\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
 #. Plugin Name of the plugin
-#: wpc-buy-now-button.php
 msgid "WPC Buy Now Button for WooCommerce"
-msgstr ""
+msgstr "WPC Przycisk Kup Teraz dla WooCommerce"
 
 #. Plugin URI of the plugin
-#: wpc-buy-now-button.php
 msgid "https://wpclever.net/"
-msgstr ""
+msgstr "https://wpclever.net/"
 
 #. Description of the plugin
-#: wpc-buy-now-button.php
 msgid "WPC Buy Now Button is the ultimate time-saving plugin that helps customers skip the cart page and get redirected right straight to the checkout step."
-msgstr ""
+msgstr "WPC Przycisk Kup Teraz to doskonałe rozwiązanie oszczędzające czas, które pozwala klientom pominąć stronę koszyka i przejść bezpośrednio do płatności."
 
 #. Author of the plugin
-#: wpc-buy-now-button.php
 msgid "WPClever"
-msgstr ""
+msgstr "WPClever"
 
 #. Author URI of the plugin
-#: wpc-buy-now-button.php
 msgid "https://wpclever.net"
-msgstr ""
+msgstr "https://wpclever.net"
 
 #: wpc-buy-now-button.php:190
 #: wpc-buy-now-button.php:214
 #: wpc-buy-now-button.php:470
 msgid "Buy now"
-msgstr ""
+msgstr "Kup teraz"
 
 #: wpc-buy-now-button.php:265
 #: wpc-buy-now-button.php:319
 msgid "Settings"
-msgstr ""
+msgstr "Ustawienia"
 
 #: wpc-buy-now-button.php:281
 msgid "Community support"
-msgstr ""
+msgstr "Wsparcie społeczności"
 
 #: wpc-buy-now-button.php:299
 #: wpc-buy-now-button.php:309
 msgid "WPC Buy Now Button"
-msgstr ""
+msgstr "WPC Przycisk Kup Teraz"
 
 #: wpc-buy-now-button.php:299
 msgid "Buy Now Button"
-msgstr ""
+msgstr "Przycisk Kup Teraz"
 
 #: wpc-buy-now-button.php:312
 msgid "Settings updated."
-msgstr ""
+msgstr "Ustawienia zaktualizowane."
 
 #: wpc-buy-now-button.php:323
 msgid "Localization"
-msgstr ""
+msgstr "Lokalizacja"
 
 #: wpc-buy-now-button.php:332
 #: wpc-buy-now-button.php:458
 msgid "General"
-msgstr ""
+msgstr "Ogólne"
 
 #: wpc-buy-now-button.php:372
 msgid "General settings."
-msgstr ""
+msgstr "Ustawienia ogólne."
 
 #: wpc-buy-now-button.php:375
 msgid "Button position on archive"
-msgstr ""
+msgstr "Pozycja przycisku na stronie archiwum"
 
 #: wpc-buy-now-button.php:383
 msgid "After title"
-msgstr ""
+msgstr "Po tytule"
 
 #: wpc-buy-now-button.php:384
 msgid "After rating"
-msgstr ""
+msgstr "Po ocenach"
 
 #: wpc-buy-now-button.php:385
 msgid "After price"
-msgstr ""
+msgstr "Po cenie"
 
 #: wpc-buy-now-button.php:386
 #: wpc-buy-now-button.php:402
 msgid "Before add to cart button"
-msgstr ""
+msgstr "Przed przyciskiem dodania do koszyka"
 
 #: wpc-buy-now-button.php:387
 #: wpc-buy-now-button.php:403
 msgid "After add to cart button"
-msgstr ""
+msgstr "Po przycisku dodania do koszyka"
 
 #: wpc-buy-now-button.php:388
 #: wpc-buy-now-button.php:404
 msgid "None (hide it)"
-msgstr ""
+msgstr "Brak (ukryj)"
 
 #. translators: shortcode
 #: wpc-buy-now-button.php:390
 #: wpc-buy-now-button.php:406
 msgid "You also can use the shortcode %s"
-msgstr ""
+msgstr "Możesz także użyć shortcode %s"
 
 #: wpc-buy-now-button.php:394
 msgid "Button position on single"
-msgstr ""
+msgstr "Pozycja przycisku na stronie produktu"
 
 #: wpc-buy-now-button.php:410
 msgid "Parameter"
-msgstr ""
+msgstr "Parametr"
 
 #. translators: parameter
 #: wpc-buy-now-button.php:417
 msgid "Parameter for the Buy Now button or link. Default %s"
-msgstr ""
+msgstr "Parametr dla przycisku lub linku Kup Teraz. Domyślnie %s"
 
 #: wpc-buy-now-button.php:421
 msgid "Categories"
-msgstr ""
+msgstr "Kategorie"
 
 #: wpc-buy-now-button.php:437
 msgid "All categories"
-msgstr ""
+msgstr "Wszystkie kategorie"
 
 #: wpc-buy-now-button.php:442
 msgid "Only show the Buy Now button for products in selected categories."
-msgstr ""
+msgstr "Pokaż przycisk Kup Teraz tylko dla produktów w wybranych kategoriach."
 
 #: wpc-buy-now-button.php:446
 msgid "Hide add-to-cart button"
-msgstr ""
+msgstr "Ukryj przycisk dodania do koszyka"
 
 #: wpc-buy-now-button.php:450
 #: wpc-buy-now-button.php:461
 #: wpc-buy-now-button.php:518
 msgid "Yes"
-msgstr ""
+msgstr "Tak"
 
 #: wpc-buy-now-button.php:451
 #: wpc-buy-now-button.php:462
 #: wpc-buy-now-button.php:519
 msgid "No"
-msgstr ""
+msgstr "Nie"
 
 #: wpc-buy-now-button.php:453
 msgid "Hide the default add-to-cart button on products that already has Buy Now button."
-msgstr ""
+msgstr "Ukryj domyślny przycisk dodania do koszyka dla produktów, które już mają przycisk Kup Teraz."
 
 #: wpc-buy-now-button.php:457
 msgid "Reset cart"
-msgstr ""
+msgstr "Resetuj koszyk"
 
 #: wpc-buy-now-button.php:464
 msgid "Reset the cart before doing buy now."
-msgstr ""
+msgstr "Zresetuj koszyk przed wykonaniem akcji Kup Teraz."
 
 #: wpc-buy-now-button.php:468
 msgid "Action"
-msgstr ""
+msgstr "Akcja"
 
 #: wpc-buy-now-button.php:470
 msgid "Choose action after doing buy now."
-msgstr ""
+msgstr "Wybierz akcję po wykonaniu Kup Teraz."
 
 #: wpc-buy-now-button.php:475
 msgid "Redirect to Checkout page"
-msgstr ""
+msgstr "Przekieruj do strony płatności"
 
 #: wpc-buy-now-button.php:476
 msgid "Redirect to Cart page"
-msgstr ""
+msgstr "Przekieruj do strony koszyka"
 
 #: wpc-buy-now-button.php:477
 msgid "Redirect to Custom page"
-msgstr ""
+msgstr "Przekieruj do niestandardowej strony"
 
 msgid "Leave blank to use the default text and its equivalent translation in multiple languages."
-msgstr ""
+msgstr "Pozostaw puste, aby użyć domyślnego tekstu i jego odpowiedniego tłumaczenia w różnych językach."
 
 msgid "Button text"
-msgstr ""
+msgstr "Tekst przycisku"

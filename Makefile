@@ -31,13 +31,13 @@ pot: ## Generate pot file
   --keyword=esc_attr_x:1c,2 --keyword=esc_html__ --keyword=esc_html_e --keyword=esc_html_x:1c,2 \
   --from-code=UTF-8 \
   --add-comments=translators \
-  -o languages/wcs-flarum-test.pot \
+  -o languages/test.pot \
   $(shell find . -name "*.php")
 	@echo "Pot file generated."
 
 .PHONY: merge-pot
 merge-pot: ## Merge pot file with existing po files
-	@msgmerge --update languages/wcs-flarum.pot languages/wcs-flarum-test.pot
+	@msgmerge --update languages/$(PLUGIN_NAME).pot languages/test.pot
 	@echo "Pot file merged with existing po files."
 
 .PHPNY: install-wp-tests

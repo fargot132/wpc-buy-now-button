@@ -26,13 +26,13 @@ defined( 'ABSPATH' ) || exit;
 ! defined( 'WPCBN_URI' ) && define( 'WPCBN_URI', plugin_dir_url( __FILE__ ) );
 ! defined( 'WPCBN_DIR' ) && define( 'WPCBN_DIR', plugin_dir_path( __FILE__ ) );
 
-// Removed WPClever dashboard and kit includes
 include 'includes/hpos.php';
 
 if ( ! function_exists( 'wpcbn_init' ) ) {
 	add_action( 'plugins_loaded', 'wpcbn_init', 11 );
 
-	function wpcbn_init() {
+	function wpcbn_init(): ?WPCleverWpcbn
+    {
 		if ( ! function_exists( 'WC' ) || ! version_compare( WC()->version, '3.0', '>=' ) ) {
 			add_action( 'admin_notices', 'wpcbn_notice_wc' );
 
@@ -41,12 +41,13 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 
 		if ( ! class_exists( 'WPCleverWpcbn' ) && class_exists( 'WC_Product' ) ) {
 			class WPCleverWpcbn {
-				protected static $param;
-				protected static $settings = [];
-				protected static $localization = [];
-				protected static $instance = null;
+				protected static mixed $param;
+				protected static array $settings = [];
+				protected static array $localization = [];
+				protected static ?WPCleverWpcbn $instance = null;
 
-				public static function instance() {
+				public static function instance(): ?WPCleverWpcbn
+                {
 					if ( is_null( self::$instance ) ) {
 						self::$instance = new self();
 					}
@@ -54,7 +55,7 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					return self::$instance;
 				}
 
-				function __construct() {
+				public function __construct() {
 					self::$settings     = (array) get_option( 'wpcbn_settings', [] );
 					self::$localization = (array) get_option( 'wpcbn_localization', [] );
 					self::$param        = self::get_setting( 'parameter', 'buy-now' );
@@ -142,7 +143,8 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					return apply_filters( 'wpcbn_localization_' . $key, $str );
 				}
 
-				function init() {
+				public function init(): void
+                {
 					// load text-domain
 					load_plugin_textdomain( 'wpc-buy-now-button', false, basename( WPCBN_DIR ) . '/languages/' );
 
@@ -154,7 +156,8 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					add_shortcode( 'wpcbn_btn_single', [ $this, 'single_shortcode' ] );
 				}
 
-				function enqueue_scripts() {
+				public function enqueue_scripts(): void
+                {
 					wp_enqueue_style( 'wpcbn-frontend', WPCBN_URI . 'assets/css/frontend.css', [], WPCBN_VERSION );
 					wp_enqueue_script( 'wpcbn-frontend', WPCBN_URI . 'assets/js/frontend.js', [ 'jquery' ], WPCBN_VERSION, true );
 					wp_localize_script( 'wpcbn-frontend', 'wpcbn_vars', apply_filters( 'wpcbn_vars', [
@@ -164,7 +167,8 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					);
 				}
 
-				function admin_enqueue_scripts() {
+				public function admin_enqueue_scripts(): void
+                {
 					wp_enqueue_style( 'wpcbn-backend', WPCBN_URI . 'assets/css/backend.css', [ 'woocommerce_admin_styles' ], WPCBN_VERSION );
 					wp_enqueue_script( 'wpcbn-backend', WPCBN_URI . 'assets/js/backend.js', [
 						'jquery',
@@ -172,7 +176,7 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					], WPCBN_VERSION, true );
 				}
 
-				function archive_shortcode( $attrs ) {
+				public function archive_shortcode( $attrs ) {
 					$output = '';
 
 					$attrs = shortcode_atts( [
@@ -185,7 +189,7 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 						$product = wc_get_product( $attrs['id'] );
 					}
 
-					if ( $product && self::is_valid_product( $product, 'archive' ) ) {
+					if ( $product && $this->is_valid_product( $product, 'archive' ) ) {
 						$attrs['id'] = $product_id = $product->get_id();
 						$btn_text    = apply_filters( 'wpcbn_btn_archive_text', self::localization( 'button_text', esc_html__( 'Buy now', 'wpc-buy-now-button' ) ), $attrs );
 						$btn_class   = apply_filters( 'wpcbn_btn_archive_class', 'wpcbn-btn wpcbn-btn-archive button product_type_simple add_to_cart_button', $attrs );
@@ -196,7 +200,7 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					return apply_filters( 'wpcbn_btn_archive', $output, $attrs );
 				}
 
-				function single_shortcode( $attrs ) {
+				public function single_shortcode( $attrs ) {
 					$output = '';
 
 					$attrs = shortcode_atts( [
@@ -209,7 +213,7 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 						$product = wc_get_product( $attrs['id'] );
 					}
 
-					if ( $product && self::is_valid_product( $product, 'single' ) ) {
+					if ( $product && $this->is_valid_product( $product, 'single' ) ) {
 						$attrs['id'] = $product_id = $product->get_id();
 						$btn_text    = apply_filters( 'wpcbn_btn_single_text', self::localization( 'button_text', esc_html__( 'Buy now', 'wpc-buy-now-button' ) ), $attrs );
 						$btn_class   = apply_filters( 'wpcbn_btn_single_class', 'wpcbn-btn wpcbn-btn-single wpcbn-btn-' . $product->get_type() . ' single_add_to_cart_button button alt', $attrs );
@@ -219,9 +223,9 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					return apply_filters( 'wpcbn_btn_single', $output, $attrs );
 				}
 
-				function is_valid_product( $product, $context = 'archive' ) {
+				public function is_valid_product( $product, $context = 'archive' ) {
 					// Early return if product is invalid
-					if ( ! $product || ! is_a( $product, 'WC_Product' ) ) {
+					if (!$product instanceof WC_Product) {
 						return apply_filters( 'wpcbn_is_valid_product', false, $product, $context );
 					}
 
@@ -246,15 +250,16 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					return apply_filters( 'wpcbn_is_valid_product', true, $product, $context );
 				}
 
-				function product_class( $classes, $product ) {
-					if ( ( self::get_setting( 'hide_atc', 'no' ) === 'yes' ) && $product && self::is_valid_product( $product ) ) {
+				public function product_class( $classes, $product ) {
+					if ( ( self::get_setting( 'hide_atc', 'no' ) === 'yes' ) && $product && $this->is_valid_product( $product ) ) {
 						$classes[] = 'wpcbn-hide-atc';
 					}
 
 					return $classes;
 				}
 
-				function action_links( $links, $file ) {
+				public function action_links( $links, $file ): array
+                {
 					static $plugin;
 
 					if ( ! isset( $plugin ) ) {
@@ -269,7 +274,8 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					return (array) $links;
 				}
 
-				function row_meta( $links, $file ) {
+				public function row_meta( $links, $file ): array
+                {
 					static $plugin;
 
 					if ( ! isset( $plugin ) ) {
@@ -287,7 +293,8 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					return (array) $links;
 				}
 
-				function register_settings() {
+				public function register_settings(): void
+                {
 					// settings
 					register_setting( 'wpcbn_settings', 'wpcbn_settings' );
 
@@ -295,14 +302,16 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					register_setting( 'wpcbn_localization', 'wpcbn_localization' );
 				}
 
-				function admin_menu() {
+				public function admin_menu(): void
+                {
 					add_submenu_page( 'woocommerce', esc_html__( 'WPC Buy Now Button', 'wpc-buy-now-button' ), esc_html__( 'Buy Now Button', 'wpc-buy-now-button' ), 'manage_options', 'wpc-buy-now-button', [
 						$this,
 						'admin_menu_content'
 					] );
 				}
 
-				function admin_menu_content() {
+				public function admin_menu_content(): void
+                {
 					$active_tab = sanitize_key( $_GET['tab'] ?? 'settings' );
 					?>
                     <div class="wpclever_settings_page wrap">
@@ -484,30 +493,32 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					<?php
 				}
 
-				function button_archive() {
+				public function button_archive(): void
+                {
 					echo do_shortcode( '[wpcbn_btn_archive]' );
 				}
 
-				function button_single(): void
+				public function button_single(): void
                 {
 					echo do_shortcode( '[wpcbn_btn_single]' );
 				}
 
-				public function handle_buy_now() {
+				public function handle_buy_now(): void
+                {
 					// Early return if required parameter is missing - check first to avoid unnecessary processing
 					if ( ! isset( $_REQUEST[ self::$param ] ) ) {
-						return false;
+						return;
 					}
 
 					// Only run on pages where buy-now makes sense (checkout, cart, or with the parameter)
 					if ( ! is_checkout() && ! is_cart() && ! isset( $_REQUEST[ self::$param ] ) ) {
-						return false;
+						return;
 					}
 
 					// Sanitize and validate input parameters
 					$product_id = absint( $_REQUEST[ self::$param ] ?? 0 );
 					if ( ! $product_id ) {
-						return null;
+						return;
 					}
 
 					// Extract and sanitize other parameters
@@ -517,7 +528,7 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					// More efficient variation attributes collection
 					$variation = array_filter(
 						$_REQUEST,
-						function ( $value, $key ) {
+						static function ( $value, $key ) {
 							return str_starts_with( $key, 'attribute_' ) ? $value : null;
 						},
 						ARRAY_FILTER_USE_BOTH
@@ -549,35 +560,31 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 				 * Helper method to determine redirect URL
 				 * @return string
 				 */
-				private function get_redirect_url() {
+				private function get_redirect_url(): string
+                {
 					$redirect_type = apply_filters(
 						'wpcbn_redirect',
 						self::get_setting( 'redirect', 'checkout' )
 					);
 
-					switch ( $redirect_type ) {
-						case 'checkout':
-							$redirect = wc_get_checkout_url();
-							break;
-						case 'cart':
-							$redirect = wc_get_cart_url();
-							break;
-						default:
-							$redirect = self::get_setting( 'redirect_custom', '/' );
-					}
+                    $redirect = match ($redirect_type) {
+                        'checkout' => wc_get_checkout_url(),
+                        'cart' => wc_get_cart_url(),
+                        default => self::get_setting('redirect_custom', '/'),
+                    };
 
 					$redirect = esc_url( apply_filters( 'wpcbn_redirect_url', $redirect ) );
 
 					return empty( $redirect ) ? '/' : $redirect;
 				}
 
-				function ignore_form_data( $form_data ) {
+				public function ignore_form_data( $form_data ) {
 					$form_data[] = self::$param;
 
 					return $form_data;
 				}
 
-				function add_to_cart_redirect( $url ) {
+				public function add_to_cart_redirect( $url ) {
 					if ( empty( $_REQUEST[ self::$param ] ) ) {
 						return $url;
 					}
@@ -585,13 +592,13 @@ if ( ! function_exists( 'wpcbn_init' ) ) {
 					return $this->get_redirect_url();
 				}
 
-				function dropdown_cats_multiple( $output, $r ) {
+				public function dropdown_cats_multiple( $output, $r ) {
 					if ( isset( $r['multiple'] ) && $r['multiple'] ) {
 						$output = preg_replace( '/^<select/i', '<select multiple', $output );
 						$output = str_replace( "name='{$r['name']}'", "name='{$r['name']}[]'", $output );
 
 						foreach ( array_map( 'trim', explode( ",", $r['selected'] ) ) as $value ) {
-							$output = str_replace( "value=\"{$value}\"", "value=\"{$value}\" selected", $output );
+							$output = str_replace( "value=\"$value\"", "value=\"$value\" selected", $output );
 						}
 					}
 

@@ -259,3 +259,10 @@ body.wpcbn-show .wpcbn-area.wpcbn-area-center {
 .wpcbn-inner .wpcbn-inner-mid {
     flex-grow: 1;
 }
+
+/* Single peduct Buy Now button margin */
+.wpcbn-btn-single {
+    margin-left: 10px!important;
+    margin-right: 10px!important;
+}
+
